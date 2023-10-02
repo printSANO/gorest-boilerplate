@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -49,7 +50,7 @@ func addItem(w http.ResponseWriter, r *http.Request) {
 
 	newItem.ID = len(items) + 1
 	items = append(items, newItem)
-
+	log.Print("hi")
 	w.WriteHeader(http.StatusCreated)
 }
 
