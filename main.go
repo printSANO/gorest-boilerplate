@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
@@ -22,5 +21,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("QueryRow failed: %v\n", err)
 	}
-	fmt.Println(greeting)
+	log.Println(greeting)
 }

@@ -5,9 +5,15 @@ import (
 	"database/sql"
 	"log"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 func ConnectSQLDB(dbType string) (*sql.DB, error) {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	urlDB := "postgres://postgres:postgres@localhost:5432/boilerplate"
 	// urlDB := os.Getenv("DB_URL")
 	db, err := sql.Open(dbType, urlDB)
@@ -23,5 +29,6 @@ func ConnectSQLDB(dbType string) (*sql.DB, error) {
 		return nil, err
 	}
 
+	log.Println("Database Connection Success!")
 	return db, nil
 }
