@@ -9,12 +9,13 @@ import (
 )
 
 func main() {
-	// dbURL := "postgres://postgres:postgres@localhost:5432/boilerplate"
-	db, err := database.ConnectDB("pgx")
+	db, err := database.ConnectSQLDB("pgx")
 
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	defer db.Close()
 
 	var greeting string
 	err = db.QueryRow("select 'Hello, world!'").Scan(&greeting)
@@ -22,6 +23,4 @@ func main() {
 		log.Fatalf("QueryRow failed: %v\n", err)
 	}
 	fmt.Println(greeting)
-
-	defer db.Close()
 }

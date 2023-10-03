@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func ConnectDB(dbType string) (*sql.DB, error) {
+func ConnectSQLDB(dbType string) (*sql.DB, error) {
 	urlDB := "postgres://postgres:postgres@localhost:5432/boilerplate"
 	// urlDB := os.Getenv("DB_URL")
 	db, err := sql.Open(dbType, urlDB)
