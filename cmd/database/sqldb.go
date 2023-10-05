@@ -9,13 +9,17 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func ConnectSQLDB(dbType string) (*sql.DB, error) {
+func ConnectSQLDB(dbType string, migration ...bool) (*sql.DB, error) {
+	migrate := false
+	if len(migration) > 0 {
+		migrate = migration[0]
+	}
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 	urlDB := "postgres://postgres:postgres@localhost:5432/boilerplate"
-	// urlDB := os.Getenv("DB_URL")
+	// urlDB := os.Getenv("SQL_DB_URL")
 	db, err := sql.Open(dbType, urlDB)
 	if err != nil {
 		log.Fatalf("Unable to connect to database: %v\n", err)
@@ -30,5 +34,8 @@ func ConnectSQLDB(dbType string) (*sql.DB, error) {
 	}
 
 	log.Println("Database Connection Success!")
+	if migrate {
+		log.Println("Migration Success!")
+	}
 	return db, nil
 }
