@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/printSANO/gorest-boilerplate/database"
@@ -14,14 +15,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	client, ctx, err := database.ConnectNoSQLDB()
+	// client, ctx, err := database.ConnectNoSQLDB()
 
-	defer func() {
-		if err = client.Disconnect(ctx); err != nil {
-			panic(err)
-		}
-		log.Println("Disconnected from Mongo Database")
-	}()
+	// defer func() {
+	// 	if err = client.Disconnect(ctx); err != nil {
+	// 		panic(err)
+	// 	}
+	// 	log.Println("Disconnected from Mongo Database")
+	// }()
 
 	defer func() {
 		if err = db.Close(); err != nil {
@@ -36,4 +37,6 @@ func main() {
 		log.Fatalf("QueryRow failed: %v\n", err)
 	}
 	log.Println(greeting)
+
+	http.ListenAndServe(":8080", nil)
 }
