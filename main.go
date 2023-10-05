@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
-	"github.com/printSANO/gorest-boilerplate/database"
+	"github.com/printSANO/gorest-boilerplate/cmd/database"
 )
 
 func main() {
