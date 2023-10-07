@@ -23,10 +23,10 @@ func (d *DB) LionMigrate(dbModel interface{}) {
 		log.Println("Model is not a struct. Migration failed")
 		return
 	}
-	CreateSQLTable(d, t)
+	createSQLTable(d, t)
 }
 
-func CreateSQLTable(d *DB, t reflect.Type) {
+func createSQLTable(d *DB, t reflect.Type) {
 	tableName := t.Name()
 	var argsSQL []string
 
