@@ -23,6 +23,10 @@ func (d *DB) LionMigrate(dbModel interface{}) {
 		log.Println("Model is not a struct. Migration failed")
 		return
 	}
+	CreateSQLTable(d, t)
+}
+
+func CreateSQLTable(d *DB, t reflect.Type) {
 	tableName := t.Name()
 	var argsSQL []string
 
@@ -38,7 +42,8 @@ func (d *DB) LionMigrate(dbModel interface{}) {
 	sqlArg := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s (%s);", tableName, strings.Join(argsSQL, ", "))
 	_, err := d.Exec(sqlArg)
 	if err != nil {
-		log.Println("Model is not a struct. Migration failed")
+		log.Println("Create Table Failed. Wrong SQL Arguments.")
+		return
 	}
 	log.Printf("Succesfully Migrated Table Name: %s", tableName)
 }
