@@ -1,12 +1,13 @@
 package main
 
 import (
-	"log"
-	"net/http"
-
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/printSANO/gorest-boilerplate/cmd/database"
 	"github.com/printSANO/gorest-boilerplate/cmd/models"
+	"github.com/printSANO/gorest-boilerplate/cmd/routes"
+	"github.com/printSANO/gorest-boilerplate/config"
+	"log"
+	"net/http"
 )
 
 func main() {
@@ -42,5 +43,7 @@ func main() {
 	}
 	log.Println(greeting)
 
-	http.ListenAndServe(":8080", nil)
+	r := routes.NewRouter(config.NewPortConfig())
+
+	http.ListenAndServe(config.NewPortConfig(), r)
 }

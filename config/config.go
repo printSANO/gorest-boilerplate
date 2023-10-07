@@ -45,6 +45,6 @@ func NewNOSQLDBConfig() string {
 
 func NewPortConfig() string {
 	loadEnv()
-	port := getEnv("PORT", ":3000")
+	port := getEnv("PORT", "3000")
 	return ":" + port
 }
