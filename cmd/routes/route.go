@@ -3,8 +3,8 @@ package routes
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/printSANO/gorest-boilerplate/cmd/handlers"
 	"log"
-	"net/http"
 )
 
 func NewRouter(port string) *chi.Mux {
@@ -26,60 +26,33 @@ func NewRouter(port string) *chi.Mux {
 
 func userRouter(r *chi.Mux) {
 	r.Route("/users", func(r chi.Router) {
-		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Users"))
-		})
-		r.Get("/{id}", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("User"))
-		})
-		r.Post("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Create User"))
-		})
-		r.Put("/{id}", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Update User"))
-		})
-		r.Delete("/{id}", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Delete User"))
-		})
+		r.Use(handlers.UserCtx)
+		r.Get("/", handlers.GetUsers)
+		r.Get("/{id}", handlers.GetUser)
+		r.Post("/", handlers.CreateUser)
+		r.Put("/{id}", handlers.UpdateUser)
+		r.Delete("/{id}", handlers.DeleteUser)
 	})
 }
 
 func reviewRouter(r *chi.Mux) {
 	r.Route("/reviews", func(r chi.Router) {
-		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Reviews"))
-		})
-		r.Get("/{id}", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Review"))
-		})
-		r.Post("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Create Review"))
-		})
-		r.Put("/{id}", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Update Review"))
-		})
-		r.Delete("/{id}", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Delete Review"))
-		})
+		r.Use(handlers.ReviewCtx)
+		r.Get("/", handlers.GetReviews)
+		r.Get("/{id}", handlers.GetReview)
+		r.Post("/", handlers.CreateReview)
+		r.Put("/{id}", handlers.UpdateReview)
+		r.Delete("/{id}", handlers.DeleteReview)
 	})
 }
 
 func movieRouter(r *chi.Mux) {
 	r.Route("/movies", func(r chi.Router) {
-		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Movies"))
-		})
-		r.Get("/{id}", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Movie"))
-		})
-		r.Post("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Create Movie"))
-		})
-		r.Put("/{id}", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Update Movie"))
-		})
-		r.Delete("/{id}", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Delete Movie"))
-		})
+		r.Use(handlers.MovieCtx)
+		r.Get("/", handlers.GetMovies)
+		r.Get("/{id}", handlers.GetMovie)
+		r.Post("/", handlers.CreateMovie)
+		r.Put("/{id}", handlers.UpdateMovie)
+		r.Delete("/{id}", handlers.DeleteMovie)
 	})
 }
