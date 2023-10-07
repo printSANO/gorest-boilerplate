@@ -6,14 +6,18 @@ import (
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/printSANO/gorest-boilerplate/cmd/database"
+	"github.com/printSANO/gorest-boilerplate/cmd/models"
 )
 
 func main() {
-	db, err := database.ConnectSQLDB("pgx")
+	db, err := database.NewSQLDB("pgx")
 
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	db.LionMigrate(&models.Example{})
+	db.LionMigrate(&models.Example2{})
 
 	// client, ctx, err := database.ConnectNoSQLDB()
 

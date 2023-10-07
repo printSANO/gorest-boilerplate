@@ -1,41 +1,52 @@
 package database
 
 import (
-	"context"
 	"database/sql"
+	"fmt"
 	"log"
-	"time"
+	"reflect"
+	"strings"
 
-	"github.com/joho/godotenv"
+	"github.com/printSANO/gorest-boilerplate/internal"
 )
 
-func ConnectSQLDB(dbType string, migration ...bool) (*sql.DB, error) {
-	migrate := false
-	if len(migration) > 0 {
-		migrate = migration[0]
-	}
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-	urlDB := "postgres://postgres:postgres@localhost:5432/boilerplate"
-	// urlDB := os.Getenv("SQL_DB_URL")
-	db, err := sql.Open(dbType, urlDB)
-	if err != nil {
-		log.Fatalf("Unable to connect to database: %v\n", err)
-	}
+type DB struct {
+	*sql.DB
+}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+func (d *DB) LionMigrate(dbModel interface{}) {
+	t := reflect.TypeOf(dbModel)
+	if t.Kind() == reflect.Ptr {
+		t = t.Elem()
+	}
+	if t.Kind() != reflect.Struct {
+		log.Println("Model is not a struct. Migration failed")
+		return
+	}
+	tableName := t.Name()
+	var argsSQL []string
 
-	err = db.PingContext(ctx)
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+		tags := field.Tag
+		columnName := tags.Get("db")
+		dataType := tags.Get("dataType")
+		constraint := tags.Get("constraint")
+		clause := strings.TrimSpace(columnName + " " + dataType + " " + constraint)
+		argsSQL = append(argsSQL, clause)
+	}
+	sqlArg := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s (%s);", tableName, strings.Join(argsSQL, ", "))
+	_, err := d.Exec(sqlArg)
+	if err != nil {
+		log.Println("Model is not a struct. Migration failed")
+	}
+	log.Printf("Succesfully Migrated Table Name: %s", tableName)
+}
+
+func NewSQLDB(dbDriver string) (*DB, error) {
+	db, err := internal.ConnectSQLDB(dbDriver)
 	if err != nil {
 		return nil, err
 	}
-
-	log.Println("Database Connection Success!")
-	if migrate {
-		log.Println("Migration Success!")
-	}
-	return db, nil
+	return &DB{db}, nil
 }
