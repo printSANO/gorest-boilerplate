@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+  sqldb:
+    image: postgres:11.5-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=boilerplate
+    volumes:
+      - sqlboilerplate:/var/lib/postgresql/data
+    networks:
+      - boilerplate
+  
+  # mongodb_container:
+  #   image: mongo:latest
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: rootpassword
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - mongoboilerplate:/data/db
+  #   networks:
+  #     - boilerplatemongo
+
+volumes:
+  sqlboilerplate:
+  # mongoboilerplate:
+
+networks:
+  boilerplate:
+    driver: bridge
+  # boilerplatemongo:
+  #   driver: bridge
