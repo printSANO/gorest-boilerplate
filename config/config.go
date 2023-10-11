@@ -1,6 +1,8 @@
 package config
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type AppConfig struct {
 	DBHost string
@@ -39,4 +41,10 @@ func NewNOSQLDBConfig() string {
 	}
 	dbURL := fmt.Sprintf("%s://%s:%s@%s:%d/%s", cfg.DBType, cfg.DBUser, cfg.DBPass, cfg.DBHost, cfg.DBPort, cfg.DBName)
 	return dbURL
+}
+
+func NewPortConfig() string {
+	loadEnv()
+	port := getEnv("PORT", "3000")
+	return ":" + port
 }

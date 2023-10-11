@@ -3,6 +3,7 @@ module github.com/printSANO/gorest-boilerplate
 go 1.20
 
 require (
+	github.com/go-chi/chi/v5 v5.0.10 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
