@@ -1,24 +1,27 @@
 package main
 
 import (
+	"log"
+	"net/http"
+
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/printSANO/gorest-boilerplate/cmd/database"
 	"github.com/printSANO/gorest-boilerplate/cmd/models"
 	"github.com/printSANO/gorest-boilerplate/cmd/routes"
 	"github.com/printSANO/gorest-boilerplate/config"
-	"log"
-	"net/http"
 )
 
+var err error
+
 func main() {
-	db, err := database.NewSQLDB("pgx")
+	database.DBMain, err = database.NewSQLDB("pgx")
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	db.LionMigrate(&models.Example{})
-	db.LionMigrate(&models.Example2{})
+	database.DBMain.LionMigrate(&models.Example{})
+	database.DBMain.LionMigrate(&models.Example2{})
 
 	// client, ctx, err := database.ConnectNoSQLDB()
 
@@ -30,18 +33,11 @@ func main() {
 	// }()
 
 	defer func() {
-		if err = db.Close(); err != nil {
+		if err = database.DBMain.Close(); err != nil {
 			panic(err)
 		}
 		log.Println("Disconnected from SQL Database")
 	}()
-
-	var greeting string
-	err = db.QueryRow("select 'Hello, world!'").Scan(&greeting)
-	if err != nil {
-		log.Fatalf("QueryRow failed: %v\n", err)
-	}
-	log.Println(greeting)
 
 	r := routes.NewRouter(config.NewPortConfig())
 
