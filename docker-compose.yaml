@@ -13,6 +13,22 @@ services:
       - sqlboilerplate:/var/lib/postgresql/data
     networks:
       - boilerplate
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=test@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=secret
+      - PGADMIN_LISTEN_PORT=81
+    ports:
+      - 8010:81
+    volumes:
+      - pgadmin_data_dev:/var/lib/pgadmin
+    depends_on:
+      - sqldb
+    networks:
+      - boilerplate
   
   # mongodb_container:
   #   image: mongo:latest
@@ -28,6 +44,7 @@ services:
 
 volumes:
   sqlboilerplate:
+  pgadmin_data_dev:
   # mongoboilerplate:
 
 networks:
