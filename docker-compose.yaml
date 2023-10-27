@@ -29,6 +29,16 @@ services:
       - sqldb
     networks:
       - boilerplate
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: "swagger-ui"
+    ports:
+      - "3001:8080"
+    volumes:
+      - ./docs/swagger.json:/swagger.json
+    environment:
+      SWAGGER_JSON: /swagger.json
+      BASE_URL: /api/v1/swagger
   
   # mongodb_container:
   #   image: mongo:latest

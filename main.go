@@ -2,13 +2,13 @@ package main
 
 import (
 	"log"
-	"net/http"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/printSANO/gorest-boilerplate/cmd/database"
 	"github.com/printSANO/gorest-boilerplate/cmd/models"
 	"github.com/printSANO/gorest-boilerplate/cmd/routes"
 	"github.com/printSANO/gorest-boilerplate/config"
+	"github.com/printSANO/gorest-boilerplate/swagger"
 )
 
 var err error
@@ -40,6 +40,7 @@ func main() {
 	}()
 
 	r := routes.NewRouter(config.NewPortConfig())
+	swagger.TestSwagger(r)
 
-	http.ListenAndServe(config.NewPortConfig(), r)
+	// http.ListenAndServe(config.NewPortConfig(), r)
 }

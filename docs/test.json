@@ -1,0 +1,157 @@
+{
+  "router": {
+    "middlewares": [],
+    "routes": {
+      "/movies/*": {
+        "router": {
+          "middlewares": [
+            {
+              "func": "MovieCtx",
+              "comment": "MovieCtx is blah blah\n"
+            }
+          ],
+          "routes": {
+            "/": {
+              "handlers": {
+                "GET": {
+                  "middlewares": [],
+                  "method": "GET",
+                  "func": "GetMovies",
+                  "comment": "GetMovies retrives all movies\n"
+                },
+                "POST": {
+                  "middlewares": [],
+                  "method": "POST",
+                  "func": "CreateMovie",
+                  "comment": ""
+                }
+              }
+            },
+            "/{id}": {
+              "handlers": {
+                "DELETE": {
+                  "middlewares": [],
+                  "method": "DELETE",
+                  "func": "DeleteMovie",
+                  "comment": ""
+                },
+                "GET": {
+                  "middlewares": [],
+                  "method": "GET",
+                  "func": "GetMovie",
+                  "comment": ""
+                },
+                "PUT": {
+                  "middlewares": [],
+                  "method": "PUT",
+                  "func": "UpdateMovie",
+                  "comment": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "/reviews/*": {
+        "router": {
+          "middlewares": [
+            {
+              "func": "ReviewCtx",
+              "comment": ""
+            }
+          ],
+          "routes": {
+            "/": {
+              "handlers": {
+                "GET": {
+                  "middlewares": [],
+                  "method": "GET",
+                  "func": "GetReviews",
+                  "comment": ""
+                },
+                "POST": {
+                  "middlewares": [],
+                  "method": "POST",
+                  "func": "CreateReview",
+                  "comment": ""
+                }
+              }
+            },
+            "/{id}": {
+              "handlers": {
+                "DELETE": {
+                  "middlewares": [],
+                  "method": "DELETE",
+                  "func": "DeleteReview",
+                  "comment": ""
+                },
+                "GET": {
+                  "middlewares": [],
+                  "method": "GET",
+                  "func": "GetReview",
+                  "comment": ""
+                },
+                "PUT": {
+                  "middlewares": [],
+                  "method": "PUT",
+                  "func": "UpdateReview",
+                  "comment": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/*": {
+        "router": {
+          "middlewares": [
+            {
+              "func": "UserCtx",
+              "comment": ""
+            }
+          ],
+          "routes": {
+            "/": {
+              "handlers": {
+                "GET": {
+                  "middlewares": [],
+                  "method": "GET",
+                  "func": "GetUsers",
+                  "comment": ""
+                },
+                "POST": {
+                  "middlewares": [],
+                  "method": "POST",
+                  "func": "CreateUser",
+                  "comment": ""
+                }
+              }
+            },
+            "/{id}": {
+              "handlers": {
+                "DELETE": {
+                  "middlewares": [],
+                  "method": "DELETE",
+                  "func": "DeleteUser",
+                  "comment": ""
+                },
+                "GET": {
+                  "middlewares": [],
+                  "method": "GET",
+                  "func": "GetUser",
+                  "comment": ""
+                },
+                "PUT": {
+                  "middlewares": [],
+                  "method": "PUT",
+                  "func": "UpdateUser",
+                  "comment": ""
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

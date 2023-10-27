@@ -44,7 +44,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Create User"))
 	_, err := database.DBMain.Exec("INSERT INTO example2 (title, author) VALUES ($1, $2)", "Hi", "Hello")
 	if err != nil {
-		log.Printf("Data insertion failed.", err)
+		log.Printf("Data insertion failed. %v\n", err)
 	} else {
 		log.Println("Data inserted successfully.")
 	}
