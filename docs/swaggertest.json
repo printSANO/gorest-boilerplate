@@ -1,0 +1,71 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"description": "This is a testing API",
+		"title": "test API",
+		"contact": {},
+		"license": {},
+		"version": "1"
+	},
+	"host": "localhost",
+	"basePath": "/api/v1",
+	"paths": {
+		"/movies": {
+			"get": {
+				"description": "GetMovies retrives all movies"
+			},
+			"post": {
+				"description": "CreateMovie creates one movie"
+			}
+		},
+		"/movies/{id}": {
+			"delete": {
+				"description": "DeleteMovie soft deletes a movie"
+			},
+			"get": {
+				"description": "GetMovie retrives one movie"
+			},
+			"put": {
+				"description": "UpdateMovie updates a movie"
+			}
+		},
+		"/reviews": {
+			"get": {
+				"description": "GetReviews is"
+			},
+			"post": {
+				"description": "CreateReview is"
+			}
+		},
+		"/reviews/{id}": {
+			"delete": {
+				"description": "DeleteReview is"
+			},
+			"get": {
+				"description": "GetReview is"
+			},
+			"put": {
+				"description": "UpdateReview is"
+			}
+		},
+		"/users": {
+			"get": {
+				"description": "GetUsers is"
+			},
+			"post": {
+				"description": "CreateUser is"
+			}
+		},
+		"/users/{id}": {
+			"delete": {
+				"description": "DeleteUser is"
+			},
+			"get": {
+				"description": "GetUser is"
+			},
+			"put": {
+				"description": "UpdateUser is"
+			}
+		}
+	}
+}

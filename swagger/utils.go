@@ -30,7 +30,7 @@ func GenerateDoc(r *chi.Mux, host string, info Info) {
 	}
 	s := string(v)
 	log.Println("Generated swagger.json")
-	file, err := os.Create("./docs/swagger.json")
+	file, err := os.Create("./docs/swaggertest.json")
 	if err != nil {
 		fmt.Printf("Error opening the file: %v\n", err)
 		return
@@ -44,11 +44,11 @@ func GenerateDoc(r *chi.Mux, host string, info Info) {
 }
 
 type SwaggerTemplate struct {
-	Version     string `json:"swagger"`
-	SwaggerInfo Info   `json:"info"`
-	Host        string `json:"host"`
-	BasePath    string `json:"basePath"`
-	Paths       Path   `json:"Path"`
+	Version     string    `json:"swagger"`
+	SwaggerInfo Info      `json:"info"`
+	Host        string    `json:"host"`
+	BasePath    string    `json:"basePath"`
+	Paths       MapMethod `json:"paths"`
 }
 
 type Info struct {
@@ -83,9 +83,8 @@ type Licenses struct {
 // 	return s
 // }
 
-func generateEnpointMap(r *chi.Mux) (Path, error) {
-	p := Path{}
-	p.Paths = buildSwaggerPaths(r)
+func generateEnpointMap(r *chi.Mux) (MapMethod, error) {
+	p := buildSwaggerPaths(r)
 
 	return p, nil
 }
@@ -128,7 +127,7 @@ func buildRoutes(r chi.Routes, m MapMethod, pattern string, basePath string) Map
 			routeMethods := make(MethodInfos)
 			for method, h := range rt.Handlers {
 				desTemp := strings.Replace(buildFuncInfo(h), "\n", "", 1)
-				methodInfoTemp := MethodInfo{Description: []string{desTemp}}
+				methodInfoTemp := MethodInfo{Description: desTemp}
 				routeMethods[strings.ToLower(method)] = methodInfoTemp
 			}
 			m[strings.Replace(temp, basePath, "", 1)] = routeMethods
@@ -221,7 +220,7 @@ type MapMethod map[string]MethodInfos // /movies : get
 type MethodInfos map[string]MethodInfo // get : {description: ... etc}
 
 type MethodInfo struct {
-	Description []string    `json:"description,omitempty"`
+	Description string      `json:"description,omitempty"`
 	Consumes    []string    `json:"consumes,omitempty"`
 	Produces    []string    `json:"produces,omitempty"`
 	Tags        []string    `json:"tags,omitempty"`

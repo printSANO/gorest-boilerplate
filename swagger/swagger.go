@@ -80,39 +80,39 @@ package swagger
 // 	return dr
 // }
 
-type Router struct {
-	Route DocRouter `json:"paths"`
-}
+// type Router struct {
+// 	Route DocRouter `json:"paths"`
+// }
 
-type DocRouter struct {
-	Middlewares []DocMiddleware `json:"notUsing"`
-	Routes      DocRoutes       `json:"routes"`
-}
+// type DocRouter struct {
+// 	Middlewares []DocMiddleware `json:"notUsing"`
+// 	Routes      DocRoutes       `json:"routes"`
+// }
 
-type DocMiddleware struct {
-	FuncInfo
-}
+// type DocMiddleware struct {
+// 	FuncInfo
+// }
 
-type DocRoute struct {
-	Pattern  string      `json:"-"`
-	Handlers DocHandlers `json:"handlers,omitempty"`
-	Router   *DocRouter  `json:"path,omitempty"`
-}
+// type DocRoute struct {
+// 	Pattern  string      `json:"-"`
+// 	Handlers DocHandlers `json:"handlers,omitempty"`
+// 	Router   *DocRouter  `json:"path,omitempty"`
+// }
 
-type DocRoutes map[string]DocRoute // Pattern : DocRoute
+// type DocRoutes map[string]DocRoute // Pattern : DocRoute
 
-type DocHandler struct {
-	Middlewares []DocMiddleware `json:"middlewares"`
-	Method      string          `json:"method"`
-	FuncInfo
-}
+// type DocHandler struct {
+// 	Middlewares []DocMiddleware `json:"middlewares"`
+// 	Method      string          `json:"method"`
+// 	FuncInfo
+// }
 
-type FuncInfo struct {
-	Func    string `json:"func"`
-	Comment string `json:"comment"`
-}
+// type FuncInfo struct {
+// 	Func    string `json:"func"`
+// 	Comment string `json:"comment"`
+// }
 
-type DocHandlers map[string]DocHandler // Method : DocHandler
+// type DocHandlers map[string]DocHandler // Method : DocHandler
 
 // func buildFuncInfo(i interface{}) FuncInfo {
 // 	fi := FuncInfo{}
