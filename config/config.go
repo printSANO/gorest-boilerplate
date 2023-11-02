@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+var BasePath string
+
 type AppConfig struct {
 	DBHost string
 	DBPort int

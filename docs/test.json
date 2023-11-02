@@ -1,10 +1,10 @@
 {
-  "router": {
-    "middlewares": [],
+  "paths": {
+    "notUsing": [],
     "routes": {
       "/movies/*": {
-        "router": {
-          "middlewares": [
+        "path": {
+          "notUsing": [
             {
               "func": "MovieCtx",
               "comment": "MovieCtx is blah blah\n"
@@ -53,8 +53,8 @@
         }
       },
       "/reviews/*": {
-        "router": {
-          "middlewares": [
+        "path": {
+          "notUsing": [
             {
               "func": "ReviewCtx",
               "comment": ""
@@ -103,8 +103,8 @@
         }
       },
       "/users/*": {
-        "router": {
-          "middlewares": [
+        "path": {
+          "notUsing": [
             {
               "func": "UserCtx",
               "comment": ""
