@@ -16,13 +16,13 @@ import (
 )
 
 func GenerateDoc(r *chi.Mux, host string, info Info) {
-	d, _ := generateEnpointMap(r)
+	pathsInfo, _ := generateEnpointMap(r)
 	st := SwaggerTemplate{
 		Version:     "2.0",
 		SwaggerInfo: info,
 		Host:        host,
 		BasePath:    config.BasePath,
-		Paths:       d,
+		Paths:       pathsInfo,
 	}
 	v, err := json.MarshalIndent(st, "", "	")
 	if err != nil {
@@ -70,49 +70,11 @@ type Licenses struct {
 	URL  string `json:"url,omitempty"`
 }
 
-// func generateJSON(r *chi.Mux) string {
-// 	d, _ := generateEnpointMap(r)
-// 	// fmt.Println(d)
-// 	v, err := json.MarshalIndent(d, "", "  ")
-// 	// fmt.Println(v)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	s := string(v)
-// 	// fmt.Println(s)
-// 	return s
-// }
-
 func generateEnpointMap(r *chi.Mux) (MapMethod, error) {
 	p := buildSwaggerPaths(r)
 
 	return p, nil
 }
-
-// func buildRoutes(r chi.Routes, m MapMethod, pattern string) MapMethod {
-// 	for _, rt := range r.Routes() {
-// 		var currentPattern string
-// 		if rt.Pattern != "/" {
-// 			currentPattern = pattern + rt.Pattern
-// 		} else {
-// 			currentPattern = pattern
-// 		}
-
-// 		temp := strings.Replace(currentPattern, "/*", "", 2)
-// 		routeMethods := make(MethodInfos)
-// 		for method, h := range rt.Handlers {
-// 			desTemp := strings.Replace(buildFuncInfo(h), "\n", "", 1)
-// 			methodInfoTemp := MethodInfo{Description: []string{desTemp}}
-// 			routeMethods[strings.ToLower(method)] = methodInfoTemp
-// 		}
-// 		m[temp] = routeMethods
-
-// 		if rt.SubRoutes != nil {
-// 			buildRoutes(rt.SubRoutes, m, currentPattern)
-// 		}
-// 	}
-// 	return m
-// }
 
 func buildRoutes(r chi.Routes, m MapMethod, pattern string, basePath string) MapMethod {
 	for _, rt := range r.Routes() {
@@ -148,19 +110,15 @@ func buildFuncInfo(i interface{}) string {
 
 func getCallerFrame(i interface{}) *runtime.Frame {
 	value := reflect.ValueOf(i)
-	// fmt.Printf("value: %v\n", value)
 	if value.Kind() != reflect.Func {
 		return nil
 	}
 	pc := value.Pointer()
 	frames := runtime.CallersFrames([]uintptr{pc})
-	// fmt.Printf("frames: %v\n", frames)
 	if frames == nil {
 		return nil
 	}
 	frame, _ := frames.Next()
-	// fmt.Printf("frame: %v\n", frame)
-	// fmt.Printf("frame.Entry: %v\n", frame.Entry)
 	if frame.Entry == 0 {
 		return nil
 	}
@@ -203,11 +161,8 @@ func getFuncComment(file string, line int) string {
 func buildSwaggerPaths(r *chi.Mux) MapMethod {
 	rts := r
 	mm := MapMethod{}
-	paths := buildRoutes(rts, mm, "", "/api/v1")
+	paths := buildRoutes(rts, mm, "", config.BasePath)
 
-	// for k, m1 := range rrr {
-	// 	log.Println(k, m1)
-	// }
 	return paths
 }
 
