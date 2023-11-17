@@ -16,7 +16,7 @@ import (
 )
 
 func GenerateDoc(r *chi.Mux, host string, info Info) {
-	pathsInfo, _ := generateEnpointMap(r)
+	pathsInfo, _ := generateEndpointMap(r)
 	st := SwaggerTemplate{
 		Version:     "2.0",
 		SwaggerInfo: info,
@@ -70,7 +70,7 @@ type Licenses struct {
 	URL  string `json:"url,omitempty"`
 }
 
-func generateEnpointMap(r *chi.Mux) (MapMethod, error) {
+func generateEndpointMap(r *chi.Mux) (MapMethod, error) {
 	p := buildSwaggerPaths(r)
 
 	return p, nil
