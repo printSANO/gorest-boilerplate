@@ -1,30 +1,36 @@
 package routes
 
 import (
+	"log"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/printSANO/gorest-boilerplate/cmd/handlers"
-	"log"
+	"github.com/printSANO/gorest-boilerplate/config"
 )
 
-func NewRouter(port string) *chi.Mux {
+func NewRouter(port string, basePath string) *chi.Mux {
 	r := chi.NewRouter()
+
+	config.BasePath = basePath
 
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	userRouter(r)
-	reviewRouter(r)
-	movieRouter(r)
+	r.Route(basePath, func(r chi.Router) {
+		userRouter(r)
+		reviewRouter(r)
+		movieRouter(r)
+	})
 
-	log.Println("Server is running on port ", port)
+	log.Println("Server is running on port", port)
 
 	return r
 }
 
-func userRouter(r *chi.Mux) {
+func userRouter(r chi.Router) {
 	r.Route("/users", func(r chi.Router) {
 		r.Use(handlers.UserCtx)
 		r.Get("/", handlers.GetUsers)
@@ -35,7 +41,7 @@ func userRouter(r *chi.Mux) {
 	})
 }
 
-func reviewRouter(r *chi.Mux) {
+func reviewRouter(r chi.Router) {
 	r.Route("/reviews", func(r chi.Router) {
 		r.Use(handlers.ReviewCtx)
 		r.Get("/", handlers.GetReviews)
@@ -46,7 +52,7 @@ func reviewRouter(r *chi.Mux) {
 	})
 }
 
-func movieRouter(r *chi.Mux) {
+func movieRouter(r chi.Router) {
 	r.Route("/movies", func(r chi.Router) {
 		r.Use(handlers.MovieCtx)
 		r.Get("/", handlers.GetMovies)
